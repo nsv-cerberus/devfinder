@@ -1,12 +1,14 @@
-/* import './Input.scss'; */
+import './Input.scss';
 
 type Props = {
-    type: string;
-    placeholder: string;
+    type?: string;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    placeholder?: string;
+    isError?: boolean;
 }
 
-export default function Input({ type = 'text', placeholder }: Props) {
+export default function Input({ type = 'text', onChange, placeholder = '', isError = false }: Props) {
     return (
-        <input type={type} className="input" placeholder={placeholder} />
+        <input type={type} className={`input ${isError ? 'error' : ''}`} onChange={onChange} placeholder={placeholder}  />
     );
 }

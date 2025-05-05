@@ -1,26 +1,26 @@
-# Node.js
+# Node / React / Vite
 client/node_modules/
 client/dist/
-
-# Vite cache
+client/.env
 client/.vite/
-
-# Logs
-*.log
-
-# macOS / Windows / Linux system files
-.DS_Store
-Thumbs.db
-
-# TypeScript cache
-*.tsbuildinfo
 
 # .NET Core
 server/bin/
 server/obj/
+server/.vs/
+server/*.user
+server/*.suo
 
-# VSCode settings
+# Mobile app (for features)
+app/node_modules/
+app/dist/
+app/.env
+
+# Сommon
+*.log
+.DS_Store
+Thumbs.db
 .vscode/
-
-# Env files
-*.env
+.idea/
+*.tsbuildinfo
+.env

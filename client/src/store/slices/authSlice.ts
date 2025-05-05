@@ -26,6 +26,7 @@ const authSlice = createSlice({
         },
         updateSignUpField: (state, action: PayloadAction<{ field: SignUpFormField; value: string }>) => {
             const { field, value } = action.payload;
+            console.log('Value: ', value);
             state.signUpForm[field] = value;
         },
         resetSignInForm: (state) => {
