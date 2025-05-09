@@ -5,6 +5,7 @@ type Props = {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     placeholder?: string;
     isError?: boolean;
+    regex?: RegExp;
 }
 
 export default function Input({ type = 'text', onChange, placeholder = '', isError = false }: Props) {

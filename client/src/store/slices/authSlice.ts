@@ -1,18 +1,30 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type SignInFormField = keyof typeof initialState.signInForm;
-type SignUpFormField = keyof typeof initialState.signUpForm;
+export type SignInFormField = keyof typeof initialState.signInForm;
+export type SignUpFormField = keyof typeof initialState.signUpForm;
 
 const initialState = {
     signInForm: {
         username: '',
-        password: '',
+        password: ''
     },
     signUpForm: {
         username: '',
         email: '',
         password: '',
-        confirmPassword: '',
+        confirmPassword: ''
+    },
+    profileForms: {
+        changeUsername: {
+            username: ''
+        },
+        changeEmail: {
+            email: ''
+        },
+        changePassword: {
+            password: '',
+            confirmPassword: ''
+        }
     }
 };
 
@@ -20,14 +32,16 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        updateSignInField: (state, action: PayloadAction<{ field: SignInFormField; value: string }>) => {
-            const { field, value } = action.payload;
-            state.signInForm[field] = value;
+        updateSignInField: (state, action: PayloadAction<{ stateKey: SignInFormField; value: string }>) => {
+            const { stateKey, value } = action.payload;
+            state.signInForm[stateKey] = value;
         },
-        updateSignUpField: (state, action: PayloadAction<{ field: SignUpFormField; value: string }>) => {
-            const { field, value } = action.payload;
-            console.log('Value: ', value);
-            state.signUpForm[field] = value;
+        updateSignUpField: (state, action: PayloadAction<{ stateKey: SignUpFormField; value: string }>) => {
+            console.log("-------");
+            const { stateKey, value } = action.payload;
+            console.log("State Key: ", stateKey);
+            console.log("Value: ", value);
+            state.signUpForm[stateKey] = value;
         },
         resetSignInForm: (state) => {
             state.signInForm = initialState.signInForm;

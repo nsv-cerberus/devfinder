@@ -1,12 +1,10 @@
 /* import { useState } from "react"; */
+import { FieldProps } from "./field-types";
+
 import Input from "@/components/ui/input/Input";
 /* import ValidationError from "@/components/validation-error/ValidationError"; */
 
-type Props = {
-    placeholder?: string;
-}
-
-export function PasswordField({ placeholder = "Password" }: Props) {
+export function PasswordField({ placeholder = "Password" }: FieldProps) {
     /* const isValidationError = useState(false); */
 
     return (
