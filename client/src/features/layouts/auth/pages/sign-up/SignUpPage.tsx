@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-
 import { useSignUpFieldDispatcher } from "@/hooks/useAuthFormFieldDispatcher";
+
 import { SignUpEmailField } from "./components/fields/SignUpEmailField";
 import { SignUpUsernameField } from "./components/fields/SignUpUsernameField";
 import { SignUpPasswordField } from "./components/fields/SignUpPasswordField";

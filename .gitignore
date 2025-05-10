@@ -1,15 +1,17 @@
-# Node / React / Vite
+# Client / React / Redux
 client/node_modules/
 client/dist/
 client/.env
 client/.vite/
 
-# .NET Core
-server/bin/
-server/obj/
-server/.vs/
-server/*.user
-server/*.suo
+# Server / Nest
+server/dist/
+server/node_modules/
+server/build/
+server/.env
+server/.env.local
+server/.env.development.local
+server/.env.production.local
 
 # Mobile app (for features)
 app/node_modules/
@@ -17,10 +19,19 @@ app/dist/
 app/.env
 
 # Сommon
-*.log
-.DS_Store
 Thumbs.db
+logs
+npm-debug.log*
+yarn-debug.log*
+*.log
+*.tsbuildinfo
+*.tmp
+*.pid
+.DS_Store
 .vscode/
 .idea/
-*.tsbuildinfo
+.settings/
 .env
+.project
+.classpath
+.temp/

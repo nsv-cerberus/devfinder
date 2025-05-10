@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
+import { useSignInFieldDispatcher } from "@/hooks/useAuthFormFieldDispatcher";
 
 import { SignInUsernameField } from "./components/fields/SignInUsernameField";
 import { SignInPasswordField } from "./components/fields/SignInPasswordField";
-import { useSignInFieldDispatcher } from "@/hooks/useAuthFormFieldDispatcher";
 
 export default function SignInPage() {
     const dispatcher = useSignInFieldDispatcher();
