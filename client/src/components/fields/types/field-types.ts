@@ -1,6 +1,7 @@
-export type SignInField = 'username' | 'password';
-export type SignUpField = 'username' | 'password' | 'email' | 'confirmPassword';
+export type SignInFormKeyType = 'username' | 'password';
+export type SignUpFormKeyType = 'username' | 'password' | 'email' | 'confirmPassword';
 
 export type FieldProps<TStateKey extends string> = {
-    dispatcher: (stateKey: TStateKey, value: string) => void;
+    valueDispatcher: (stateKey: TStateKey, value: string) => void;
+    validationValueDispatcher?: (stateKey: TStateKey, value: boolean) => void;
 }

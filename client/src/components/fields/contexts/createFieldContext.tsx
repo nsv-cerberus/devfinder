@@ -13,8 +13,6 @@ export function createFieldContext<TStateKey extends string>() {
     const Context = createContext<FieldProviderValue | null>(null);
 
     const Provider = ({ children, stateKey, dispatcher }: ProviderProps) => {
-        console.log("Provider state key: ", stateKey);
-
         return (
             <Context.Provider value={{ stateKey, dispatcher }}>
                 {children}

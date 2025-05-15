@@ -1,15 +1,21 @@
-import { Field } from "@/components/fields/Field";
-import { FieldProps, SignUpField } from "@/components/fields/types/field-types";
+import { SignUpFormKeyType } from "@/components/fields/types/field-types";
 
-export function SignUpEmailField({ dispatcher }: FieldProps<SignUpField>) {
+import { Field } from "@/components/fields/Field";
+import { useFieldValidationContext } from "@/components/fields/contexts/FieldValidationContext";
+
+export function SignUpEmailField() {
+    const regExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const stateKey = 'email';
+    const validationError = "Enter the correct E-mail address. Example: name@email.com";
+
+    const { valueSetterDispatcher, validationValueSetterDispatcher } = useFieldValidationContext();
+
     return (
-        <Field<SignUpField>
+        <Field<SignUpFormKeyType>
             type="email"
             placeholder="E-mail Address"
-            stateKey="email"
-            dispatcher={dispatcher}
-            regExp={/^[^\s@]+@[^\s@]+\.[^\s@]+$/}
-            validationError="The password must not be less than 8 characters long."
+            valueControl={{ stateKey: stateKey, dispatcher: valueSetterDispatcher }}
+            validationControl={{ rules: {regExps: regExp}, dispatcher: validationValueSetterDispatcher, error: validationError }}
         />
     );
 }

@@ -1,46 +1,80 @@
-import { useState } from "react";
-import { useDebounce } from "@/hooks/useDebounce";
-import { validate } from "@/utils/validator";
+import { useState, useEffect } from "react";
+import { useFieldValidationContext } from "./contexts/FieldValidationContext";
+import { validateValueByRegExp } from "@/utils/validator";
 
 import ValidationError from "../validation-error/ValidationError";
+
+type CustomeMethodType = (...args: unknown[]) => boolean;
+
+type ValidationRuleType =
+    | { regExps: RegExp | RegExp[]; customMethods?: CustomeMethodType | (CustomeMethodType)[] }
+    | { regExps?: undefined; customMethods: CustomeMethodType | (CustomeMethodType)[] };
 
 type FieldProps<TStateKey extends string> = {
     type?: React.HTMLInputTypeAttribute;
     placeholder?: string;
-    stateKey: TStateKey;
-    dispatcher: (stateKey: TStateKey, value: string) => void;
-    regExp?: RegExp | RegExp[];
-    validationError?: string;
+    valueControl: {
+        stateKey: TStateKey,
+        dispatcher: (stateKey: TStateKey, value: string) => void
+    },
+    validationControl?: {
+        rules: ValidationRuleType,
+        dispatcher: (stateKey: TStateKey, value: boolean) => void,
+        error?: string
+    }
 };
 
-export function Field<TStateKey extends string>({ placeholder = "Enter value", stateKey, dispatcher, regExp = [], type = "text"}: FieldProps<TStateKey>) {
+export function Field<TStateKey extends string>({ type = "text", placeholder = "Enter Value", valueControl, validationControl }: FieldProps<TStateKey>) {
+    const { registerValidator } = useFieldValidationContext();
+    const [value, setValue] = useState('');
     const [isError, setIsError] = useState(false);
 
-    const debounceValidate = useDebounce((value: string) => {
-        if ((Array.isArray(regExp) && regExp.length > 0 && !regExp.some((r) => validate(value, r))) ||
-            (regExp instanceof RegExp && !validate(value, regExp)))
-        {
-            setIsError(true);
-        } else {
-            dispatcher(stateKey, value);
+    useEffect(() => {
+        if (validationControl) {
+            registerValidator(validate);
+            validationControl.dispatcher(valueControl.stateKey, false);
         }
     });
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value;
+        setValueDispatcher(valueControl.stateKey, newValue);
+        setValue(newValue);
         setIsError(false);
-
-        if (newValue === '') {
-            dispatcher(stateKey, newValue);
-        } else {
-            debounceValidate(newValue);
-        }
     };
+
+    const setValueDispatcher = (stateKey: TStateKey, value: string) => valueControl.dispatcher(stateKey, value);
+
+    const validate = () => {
+        let validateState = false;
+        const regExps: RegExp | RegExp[] | null = validationControl?.rules.regExps ?? null;
+        const customMethods: CustomeMethodType | CustomeMethodType[] | null = validationControl?.rules.customMethods ?? null;
+
+        if (regExps) {
+            if (regExps instanceof RegExp) {
+                validateState = validateValueByRegExp(value, regExps);
+            } else if (Array.isArray(regExps)) {
+                validateState = regExps.some(r => validateValueByRegExp(value, r));
+            }
+        }
+
+        if (customMethods) {
+            if (Array.isArray(customMethods)) {
+                validateState = customMethods.every(m => m(value));
+            } else {
+                validateState = customMethods(value);
+            }
+        }
+
+        if (!validateState) {
+            setIsError(true);
+        }
+    }
 
     return (
         <div>
             <input type={type} onChange={onChange} placeholder={placeholder} style={{ borderColor: isError ? "red" : undefined }} />
-            {isError && <ValidationError text="Invalid value!" />}
+            {isError && <ValidationError text={`${(validationControl?.error) ? validationControl.error : 'Invalid value!'}`} />}
         </div>
     );
 }

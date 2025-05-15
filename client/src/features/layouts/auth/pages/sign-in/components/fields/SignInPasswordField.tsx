@@ -1,13 +1,13 @@
 import { Field } from "@/components/fields/Field";
-import { FieldProps, SignInField } from "@/components/fields/types/field-types";
+import { FieldProps, SignInFormKeyType } from "@/components/fields/types/field-types";
 
-export function SignInPasswordField({ dispatcher }: FieldProps<SignInField>) {
+export function SignInPasswordField({ valueDispatcher: dispatcher }: FieldProps<SignInFormKeyType>) {
     return (
-        <Field<SignInField>
+        <Field<SignInFormKeyType>
             type="password"
             placeholder="Password"
             stateKey="password"
-            dispatcher={dispatcher}
+            valueDispatcher={dispatcher}
             validationError=""
         />
     );

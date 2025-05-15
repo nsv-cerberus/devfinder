@@ -1,18 +1,20 @@
+import { SignInFormKeyType, SignUpFormKeyType } from '@/components/fields/types/field-types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type SignInFormField = keyof typeof initialState.signInForm;
-export type SignUpFormField = keyof typeof initialState.signUpForm;
+type ValidationFieldsType = { [key: string]: boolean };
 
 const initialState = {
     signInForm: {
         username: '',
-        password: ''
+        password: '',
+        validationFields: {} as ValidationFieldsType
     },
     signUpForm: {
         username: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        validationFields: {} as ValidationFieldsType
     },
     profileForms: {
         changeUsername: {
@@ -32,25 +34,38 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        updateSignInField: (state, action: PayloadAction<{ stateKey: SignInFormField; value: string }>) => {
-            const { stateKey, value } = action.payload;
-            state.signInForm[stateKey] = value;
-        },
-        updateSignUpField: (state, action: PayloadAction<{ stateKey: SignUpFormField; value: string }>) => {
-            console.log("-------");
-            const { stateKey, value } = action.payload;
-            console.log("State Key: ", stateKey);
-            console.log("Value: ", value);
-            state.signUpForm[stateKey] = value;
-        },
         resetSignInForm: (state) => {
             state.signInForm = initialState.signInForm;
         },
         resetSignUpForm: (state) => {
             state.signUpForm = initialState.signUpForm;
+        },
+        setSignInFieldValue: (state, action: PayloadAction<{ stateKey: SignInFormKeyType; value: string }>) => {
+            const { stateKey, value } = action.payload;
+            state.signInForm[stateKey] = value;
+        },
+        setSignUpFieldValue: (state, action: PayloadAction<{ stateKey: SignUpFormKeyType; value: string }>) => {
+            const { stateKey, value } = action.payload;
+            state.signUpForm[stateKey] = value;
+        },
+        setSignInValidationFieldValue: (state, action: PayloadAction<{ stateKey: SignInFormKeyType; value: boolean }>) => {
+            const { stateKey, value } = action.payload;
+            state.signInForm.validationFields[stateKey] = value;
+        },
+        setSignUpValidationFieldValue: (state, action: PayloadAction<{ stateKey: SignUpFormKeyType; value: boolean }>) => {
+            const { stateKey, value } = action.payload;
+            state.signUpForm.validationFields[stateKey] = value;
         }
     }
 });
 
-export const { updateSignInField, updateSignUpField, resetSignInForm, resetSignUpForm } = authSlice.actions;
+export const {
+    setSignInFieldValue,
+    setSignUpFieldValue,
+    setSignInValidationFieldValue,
+    setSignUpValidationFieldValue,
+    resetSignInForm,
+    resetSignUpForm
+} = authSlice.actions;
+
 export default authSlice.reducer;
