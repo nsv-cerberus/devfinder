@@ -1,27 +1,26 @@
 import { useDispatch } from "react-redux";
-import { SignInFormKeyType, SignUpFormKeyType } from "@/components/fields/types/field-types";
-import { /* setSignInFieldValue, */ setSignUpFieldValue, /* setSignInValidationFieldValue, */ setSignUpValidationFieldValue } from "@/store/slices/authSlice";
+import { SignInFormState, SignUpFormState, setSignInFieldValue, setSignUpFieldValue, setSignInValidationFieldValue, setSignUpValidationFieldValue } from "@/store/slices/authSlice";
 
-export const useValueSetterDispatcher = <TKeyState extends SignInFormKeyType | SignUpFormKeyType>() => {
+/* export const useValueSetterDispatcher = <TKeyState extends SignInFormState | SignUpFormState>() => {
     const dispatch = useDispatch();
 
     return (stateKey: TKeyState, value: string) => {
         dispatch(setSignUpFieldValue({ stateKey, value }));
     };
-};
+}; */
 
-export const useValidationValueSetterDispatcher = <TKeyState extends SignInFormKeyType | SignUpFormKeyType>() => {
+/* export const useValidationValueSetterDispatcher = <TKeyState extends SignInFormKeyType | SignUpFormKeyType>() => {
     const dispatch = useDispatch();
 
     return (stateKey: TKeyState, value: boolean) => {
         dispatch(setSignUpValidationFieldValue({ stateKey, value }));
     };
-};
+}; */
 
-/* export const useSignInFieldDispatcher = () => {
+export const useSignInFieldDispatcher = () => {
     const dispatch = useDispatch();
 
-    return (stateKey: SignInFormKeyType, value: string) => {
+    return (stateKey: SignInFormState, value: string) => {
         dispatch(setSignInFieldValue({ stateKey, value }));
     };
 };
@@ -29,7 +28,7 @@ export const useValidationValueSetterDispatcher = <TKeyState extends SignInFormK
 export const useSignUpFieldDispatcher = () => {
     const dispatch = useDispatch();
 
-    return (stateKey: SignUpFormKeyType, value: string) => {
+    return (stateKey: SignUpFormState, value: string) => {
         dispatch(setSignUpFieldValue({ stateKey, value }));
     };
 };
@@ -37,7 +36,7 @@ export const useSignUpFieldDispatcher = () => {
 export const useSignInValidateDispatcher = () => {
     const dispatch = useDispatch();
 
-    return (stateKey: SignInFormKeyType, value: boolean) => {
+    return (stateKey: SignInFormState, value: boolean) => {
         dispatch(setSignInValidationFieldValue({ stateKey, value }));
     };
 };
@@ -45,7 +44,7 @@ export const useSignInValidateDispatcher = () => {
 export const useSignUpValidateDispatcher = () => {
     const dispatch = useDispatch();
 
-    return (stateKey: SignUpFormKeyType, value: boolean) => {
+    return (stateKey: SignUpFormState, value: boolean) => {
         dispatch(setSignUpValidationFieldValue({ stateKey, value }));
     };
-}; */
+};

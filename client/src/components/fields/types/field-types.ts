@@ -1,5 +1,4 @@
-export type SignInFormKeyType = 'username' | 'password';
-export type SignUpFormKeyType = 'username' | 'password' | 'email' | 'confirmPassword';
+/* export type CustomeMethodType = (...args: unknown[]) => boolean; */
 
 export type FieldProps<TStateKey extends string> = {
     valueDispatcher: (stateKey: TStateKey, value: string) => void;

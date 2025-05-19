@@ -1,4 +1,64 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useFieldValidationContext } from "./contexts/validation/useFieldValidationContext";
+import { useValidation, ValidationRulesType } from "@/hooks/useValidation";
+import { SignInFormState, SignUpFormState } from "@/store/slices/authSlice";
+
+import { FieldInput } from "./FieldInput";
+
+type FieldControllerProps<TStateKey extends SignInFormState | SignUpFormState> = {
+  type?: React.HTMLInputTypeAttribute;
+  placeholder?: string;
+  valueControl: {
+    stateKey: TStateKey,
+    dispatcher: (stateKey: TStateKey, value: string) => void
+  },
+  validationControl?: {
+    rules: ValidationRulesType,
+    dispatcher: (stateKey: TStateKey, value: boolean) => void,
+    error?: string
+  }
+};
+
+export function FieldController<TStateKey extends SignInFormState | SignUpFormState>({
+  type,
+  placeholder,
+  valueControl,
+  validationControl
+}: FieldControllerProps<TStateKey>) {
+  const { registerValidator } = useFieldValidationContext();
+  const { isValid, validate } = useValidation(validationControl?.rules);
+
+  useEffect(() => {
+    if (validationControl) {
+      registerValidator(valueControl.stateKey, validate);
+      validationControl.dispatcher(valueControl.stateKey, false);
+    }
+  });
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    valueControl.dispatcher(valueControl.stateKey, e.target.value);
+  };
+
+  console.log("Is Error: ", isValid);
+
+  return (
+    <FieldInput
+      type={type}
+      placeholder={placeholder}
+      /* value={value} */
+      onChange={onChange}
+      /* validation={
+        isError={!isValid}
+        errorText={validationControl?.error}
+      } */
+    />
+  );
+}
+
+
+
+
+/* import { useState, useEffect } from "react";
 import { useFieldValidationContext } from "./contexts/FieldValidationContext";
 import { validateValueByRegExp } from "@/utils/validator";
 
@@ -31,7 +91,7 @@ export function Field<TStateKey extends string>({ type = "text", placeholder = "
 
     useEffect(() => {
         if (validationControl) {
-            registerValidator(validate);
+            registerValidator(valueControl.stateKey, validate);
             validationControl.dispatcher(valueControl.stateKey, false);
         }
     });
@@ -77,4 +137,4 @@ export function Field<TStateKey extends string>({ type = "text", placeholder = "
             {isError && <ValidationError text={`${(validationControl?.error) ? validationControl.error : 'Invalid value!'}`} />}
         </div>
     );
-}
+} */

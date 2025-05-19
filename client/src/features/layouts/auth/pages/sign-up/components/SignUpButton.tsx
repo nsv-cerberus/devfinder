@@ -1,14 +1,14 @@
-import { useFieldValidationContext } from "@/components/fields/contexts/FieldValidationContext";
+import { useFieldValidationContext } from "@/components/fields/contexts/validation/useFieldValidationContext";
 import Button from "@/components/ui/button/Button";
 
 export function SignUpButton() {
-    const { triggerAllValidators } = useFieldValidationContext();
+  const { triggerAllValidators } = useFieldValidationContext();
 
-    const onClick = () => {
-        triggerAllValidators();
-    }
+  const onClick = () => {
+    triggerAllValidators();
+  }
 
-    return (
-        <Button onClick={ onClick }>Sign Up</Button>
-    )
+  return (
+    <Button onClick={ onClick }>Sign Up</Button>
+  )
 }
