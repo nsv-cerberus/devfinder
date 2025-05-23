@@ -49,9 +49,9 @@ const authSlice = createSlice({
         setSignUpFieldValue: (state, action: PayloadAction<{ stateKey: SignUpFormState; value: string }>) => {
             const { stateKey, value } = action.payload;
             state.signUpForm[stateKey] = value;
-            console.log("----------------------");
-            console.log("stateKey: ", stateKey);
-            console.log("value: ", value);
+            console.log("**************");
+            console.log("Set State: ", stateKey);
+            console.log("Value: ", state.signUpForm[stateKey]);
         },
         setSignInValidationFieldValue: (state, action: PayloadAction<{ stateKey: SignInFormState; value: boolean }>) => {
             const { stateKey, value } = action.payload;

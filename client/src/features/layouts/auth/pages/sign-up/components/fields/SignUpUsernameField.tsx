@@ -1,12 +1,17 @@
-import SignUpFieldWrapper from "./SignUpFieldWrapper";
+import { regex } from "@/utils/regex";
+import SignUpFieldWrapper from "./wrapper/SignUpFieldWrapper";
 
 export function SignUpUsernameField() {
   return (
     <SignUpFieldWrapper
       placeholder="Username"
       stateKey="username"
-      regExp={/^[a-zA-Z0-9_-]{3,16}$/}
-      errorText="The Username 3 - 16 symbols."
+      validation={{
+        rules: {
+          regex: regex.username
+        },
+        errorText: "The Username 3 - 16 symbols."
+      }}
     />
   );
 }

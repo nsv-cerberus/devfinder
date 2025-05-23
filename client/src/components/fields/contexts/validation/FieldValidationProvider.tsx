@@ -12,7 +12,6 @@ export const FieldValidationProvider = ({ children }: { children: React.ReactNod
   const registerValidator = (key: string, fn: () => void) => {
     const exists = registeredValidators.current.some(v => v.key === key);
     if (!exists) {
-      console.log("Register Valdator: ", key);
       registeredValidators.current.push({ key, fn });
     }
   };

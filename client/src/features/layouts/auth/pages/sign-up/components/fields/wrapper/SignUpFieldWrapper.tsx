@@ -1,21 +1,24 @@
+import { ValidationRulesType } from "@/utils/validation";
 import { SignUpFormState } from "@/store/slices/authSlice";
-import { FieldController } from "@/components/fields/FieldController";
 import { useSignUpFieldDispatcher, useSignUpValidateDispatcher } from "@/hooks/useAuthFormFieldDispatchers";
+
+import { FieldController } from "@/components/fields/FieldController";
 
 interface Props {
   stateKey: SignUpFormState;
-  placeholder: string;
+  placeholder?: string;
   type?: React.HTMLInputTypeAttribute;
-  regExp: RegExp;
-  errorText: string;
+  validation: {
+    rules: ValidationRulesType
+    errorText: string;
+  }
 }
 
 export default function SignUpFieldWrapper({
   stateKey,
   placeholder,
   type,
-  regExp,
-  errorText,
+  validation
 }: Props) {
   return (
     <FieldController<SignUpFormState>
@@ -26,9 +29,9 @@ export default function SignUpFieldWrapper({
         dispatcher: useSignUpFieldDispatcher(),
       }}
       validationControl={{
-        rules: { regExp },
+        rules: validation.rules,
         dispatcher: useSignUpValidateDispatcher(),
-        error: errorText,
+        error: validation.errorText,
       }}
     />
   );
