@@ -1,5 +1,13 @@
 {
     "scripts": {
-        "dev": "npm --prefix client run dev"
+        "dev": "concurrently \"npm --prefix client run dev\" \"npm --prefix server run start:dev\""
+    },
+    "devDependencies": {
+        "concurrently": "^9.1.2"
+    },
+    "dependencies": {
+        "@nestjs/typeorm": "^11.0.0",
+        "pg": "^8.16.0",
+        "typeorm": "^0.3.24"
     }
 }
