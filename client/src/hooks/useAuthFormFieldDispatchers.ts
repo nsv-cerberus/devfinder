@@ -1,50 +1,21 @@
 import { useDispatch } from "react-redux";
-import { SignInFormState, SignUpFormState, setSignInFieldValue, setSignUpFieldValue, setSignInValidationFieldValue, setSignUpValidationFieldValue } from "@/store/slices/authSlice";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import {
+  setSignInFieldValue,
+  setSignUpFieldValue,
+  setSignInValidationFieldValue,
+  setSignUpValidationFieldValue
+} from "@/store/slices/authSlice";
 
-/* export const useValueSetterDispatcher = <TKeyState extends SignInFormState | SignUpFormState>() => {
-    const dispatch = useDispatch();
+type ActionCreator<TPayload> = (payload: TPayload) => PayloadAction<TPayload>;
 
-    return (stateKey: TKeyState, value: string) => {
-        dispatch(setSignUpFieldValue({ stateKey, value }));
-    };
-}; */
+export const useFieldDispatcher = <TPayload>(actionCreator: ActionCreator<TPayload>) => {
+  const dispatch = useDispatch();
+  return (payload: TPayload) => dispatch(actionCreator(payload));
+}
 
-/* export const useValidationValueSetterDispatcher = <TKeyState extends SignInFormKeyType | SignUpFormKeyType>() => {
-    const dispatch = useDispatch();
+export const useSignInFieldDispatcher = () => useFieldDispatcher(setSignInFieldValue);
+export const useSignUpFieldDispatcher = () => useFieldDispatcher(setSignUpFieldValue);
 
-    return (stateKey: TKeyState, value: boolean) => {
-        dispatch(setSignUpValidationFieldValue({ stateKey, value }));
-    };
-}; */
-
-export const useSignInFieldDispatcher = () => {
-    const dispatch = useDispatch();
-
-    return (stateKey: SignInFormState, value: string) => {
-        dispatch(setSignInFieldValue({ stateKey, value }));
-    };
-};
-
-export const useSignUpFieldDispatcher = () => {
-    const dispatch = useDispatch();
-
-    return (stateKey: SignUpFormState, value: string) => {
-        dispatch(setSignUpFieldValue({ stateKey, value }));
-    };
-};
-
-export const useSignInValidateDispatcher = () => {
-    const dispatch = useDispatch();
-
-    return (stateKey: SignInFormState, value: boolean) => {
-        dispatch(setSignInValidationFieldValue({ stateKey, value }));
-    };
-};
-
-export const useSignUpValidateDispatcher = () => {
-    const dispatch = useDispatch();
-
-    return (stateKey: SignUpFormState, value: boolean) => {
-        dispatch(setSignUpValidationFieldValue({ stateKey, value }));
-    };
-};
+export const useSignInValidateDispatcher = () => useFieldDispatcher(setSignInValidationFieldValue);
+export const useSignUpValidateDispatcher = () => useFieldDispatcher(setSignUpValidationFieldValue);

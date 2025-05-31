@@ -20,8 +20,10 @@ export default function SignUpFieldWrapper({
   type,
   validation
 }: Props) {
+  type FormState = SignUpFormState;
+
   return (
-    <FieldController<SignUpFormState>
+    <FieldController<FormState>
       type={type}
       placeholder={placeholder}
       valueControl={{

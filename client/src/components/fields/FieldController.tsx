@@ -11,11 +11,11 @@ type FieldControllerProps<TStateKey extends SignInFormState | SignUpFormState> =
   placeholder?: string;
   valueControl: {
     stateKey: TStateKey,
-    dispatcher: (stateKey: TStateKey, value: string) => void
+    dispatcher: (payload: { stateKey: SignUpFormState; value: string }) => void
   },
   validationControl?: {
     rules: ValidationRulesType,
-    dispatcher: (stateKey: TStateKey, value: boolean) => void,
+    dispatcher: (payload: { stateKey: SignUpFormState; value: boolean }) => void;
     error?: string
   }
 };
@@ -32,7 +32,7 @@ export function FieldController<TStateKey extends SignInFormState | SignUpFormSt
   useEffect(() => {
     if (validationControl) {
       registerValidator(valueControl.stateKey, validateValue);
-      validationControl.dispatcher(valueControl.stateKey, false);
+      validationControl.dispatcher({ stateKey: valueControl.stateKey, value: false });
     }
   });
 
@@ -46,7 +46,7 @@ export function FieldController<TStateKey extends SignInFormState | SignUpFormSt
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsError(false);
-    valueControl.dispatcher(valueControl.stateKey, e.target.value);
+    valueControl.dispatcher({ stateKey: valueControl.stateKey, value: e.target.value } );
   };
 
   return (
