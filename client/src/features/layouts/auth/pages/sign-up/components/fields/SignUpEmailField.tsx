@@ -4,13 +4,14 @@ import SignUpFieldWrapper from "./wrapper/SignUpFieldWrapper";
 export function SignUpEmailField() {
   return (
     <SignUpFieldWrapper
-      placeholder="E-mail Address"
       stateKey="email"
+      placeholder="E-mail Address"
+      isRequired={true}
       validation={{
-        rules: {
-          regex: regex.email
-        },
-        errorText: "Enter a valid email. Example: name@email.com"
+        regexRule: {
+          regex: regex.email,
+          errorMessage: "Enter a valid email. Example: name@email.com"
+        }
       }}
     />
   );

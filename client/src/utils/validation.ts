@@ -1,29 +1,57 @@
-export type CustomeMethodType = (...args: unknown[]) => boolean;
+export type CustomMethodType = (...args: unknown[]) => boolean;
 
-export type ValidationRulesType =
-  | { regex: RegExp | RegExp[]; customMethod?: CustomeMethodType | (CustomeMethodType)[] }
-  | { regex?: undefined; customMethod: CustomeMethodType | (CustomeMethodType)[] };
+type RegexRule = {
+  regex: RegExp;
+  errorMessage: string;
+};
 
-export function validate(value: string, rules?: ValidationRulesType): boolean {
-  if (!rules) return true;
+type CustomRule = {
+  method: CustomMethodType;
+  errorMessage: string;
+};
 
-  let result = true;
-  const regex = rules.regex ?? null;
-  const customMethod = rules.customMethod ?? null;
+export type ValidationType =
+  | { regexRule: RegexRule | RegexRule[]; customRule?: CustomRule | CustomRule[]; }
+  | { regexRule?: undefined; customRule: CustomRule | CustomRule[]; };
 
-  if (regex) {
-    if (regex instanceof RegExp) {
-      result = regex.test(value);
-    } else if (Array.isArray(regex)) {
-      result = regex.every(r => r.test(value));
+export type ValidateType = {
+  isValid: boolean
+  errorMessage: string
+}
+
+export function validate(value: string, validation?: ValidationType): ValidateType {
+  const initialValidate: ValidateType = {
+    isValid: true,
+    errorMessage: '',
+  };
+
+  if (!validation) return initialValidate;
+
+  const regexRules = Array.isArray(validation.regexRule)
+    ? validation.regexRule
+    : validation.regexRule ? [validation.regexRule] : [];
+
+  for (const rule of regexRules) {
+    if (!rule.regex.test(value)) {
+      return {
+        isValid: false,
+        errorMessage: rule.errorMessage,
+      };
     }
   }
 
-  if (customMethod) {
-    result = Array.isArray(customMethod)
-      ? customMethod.every(fn => fn(value))
-      : customMethod(value);
+  const customRules = Array.isArray(validation.customRule)
+    ? validation.customRule
+    : validation.customRule ? [validation.customRule] : [];
+
+  for (const rule of customRules) {
+    if (!rule.method(value)) {
+      return {
+        isValid: false,
+        errorMessage: rule.errorMessage,
+      };
+    }
   }
 
-  return result;
+  return initialValidate;
 }

@@ -1,4 +1,3 @@
-
 import store from "@/store/store";
 import SignUpFieldWrapper from "./wrapper/SignUpFieldWrapper";
 
@@ -10,13 +9,14 @@ export function SignUpConfirmPasswordField() {
 
   return (
     <SignUpFieldWrapper
-      placeholder="Confirm Password"
       stateKey="confirmPassword"
+      placeholder="Confirm Password"
+      isRequired={true}
       validation={{
-        rules: {
-          customMethod: checkToConfirmPassword
-        },
-        errorText: "The password doesn't match!"
+        customRule: {
+          method: checkToConfirmPassword,
+          errorMessage: "The password doesn't match!"
+        }
       }}
     />
   );

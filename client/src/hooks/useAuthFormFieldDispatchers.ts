@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import type { PayloadAction } from "@reduxjs/toolkit";
+
 import {
   setSignInFieldValue,
   setSignUpFieldValue,
@@ -9,7 +10,7 @@ import {
 
 type ActionCreator<TPayload> = (payload: TPayload) => PayloadAction<TPayload>;
 
-export const useFieldDispatcher = <TPayload>(actionCreator: ActionCreator<TPayload>) => {
+const useFieldDispatcher = <TPayload>(actionCreator: ActionCreator<TPayload>) => {
   const dispatch = useDispatch();
   return (payload: TPayload) => dispatch(actionCreator(payload));
 }

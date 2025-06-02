@@ -4,13 +4,14 @@ import SignUpFieldWrapper from "./wrapper/SignUpFieldWrapper";
 export function SignUpPasswordField() {
   return (
     <SignUpFieldWrapper
-      placeholder="Password"
       stateKey="password"
+      placeholder="Password"
+      isRequired={true}
       validation={{
-        rules: {
-          regex: regex.password
-        },
-        errorText: "The password must not be less than 8 characters long."
+        regexRule: {
+          regex: regex.password,
+          errorMessage: "The password must not be less than 8 characters long."
+        }
       }}
     />
   );

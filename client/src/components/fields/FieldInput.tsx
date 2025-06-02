@@ -7,8 +7,8 @@ interface FieldInputProps {
   placeholder?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   validation?: {
-    isError?: boolean;
-    errorText?: string;
+    isError: boolean;
+    errorMessage: string;
   }
 }
 
@@ -28,7 +28,7 @@ export function FieldInput({
         onChange={onChange}
         style={{ borderColor: validation && validation.isError ? "red" : undefined }}
       />
-      {validation && validation.isError && <ValidationError text={validation.errorText ?? "Invalid value!"} />}
+      {validation && validation.isError && <ValidationError text={validation.errorMessage ?? "Invalid value!"} />}
     </div>
   );
 }

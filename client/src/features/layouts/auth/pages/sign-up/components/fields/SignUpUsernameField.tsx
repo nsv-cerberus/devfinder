@@ -4,13 +4,14 @@ import SignUpFieldWrapper from "./wrapper/SignUpFieldWrapper";
 export function SignUpUsernameField() {
   return (
     <SignUpFieldWrapper
-      placeholder="Username"
       stateKey="username"
+      placeholder="Username"
+      isRequired={true}
       validation={{
-        rules: {
-          regex: regex.username
-        },
-        errorText: "The Username 3 - 16 symbols."
+        regexRule: {
+          regex: regex.username,
+          errorMessage: "The Username 3 - 16 symbols."
+        }
       }}
     />
   );

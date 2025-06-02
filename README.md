@@ -2,7 +2,7 @@
 
 Fullstack messenger app with:
 
-- Frontend: Vite + React + TypeScript
-- Backend: ASP.NET Core Web API
+- Client: React / Vite
+- Server: Nest / PostgreSQL
 
 ## Structure
