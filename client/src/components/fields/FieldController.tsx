@@ -34,7 +34,7 @@ export function FieldController<TStateKey extends SignInFormState | SignUpFormSt
     isActive: false,
     message: ''
   });
-  const { registerValidator } = useFieldValidationContext();
+  const { addFieldValidator: registerValidator } = useFieldValidationContext();
 
   useEffect(() => {
     if (validationControl) {
@@ -52,7 +52,7 @@ export function FieldController<TStateKey extends SignInFormState | SignUpFormSt
         isActive: true,
         message: 'This field is required.'
       })
-      return;
+      return false;
     }
 
     if (validationControl) {
@@ -61,7 +61,11 @@ export function FieldController<TStateKey extends SignInFormState | SignUpFormSt
         isActive: !v.isValid,
         message: v.errorMessage
       });
+
+      return v.isValid;
     }
+
+    return true;
   }
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {

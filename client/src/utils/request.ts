@@ -8,6 +8,7 @@ const request = async (type: RequestType, url: string, data?: FormData) => {
 
     if (data instanceof FormData) {
       headers["Content-Type"] = "multipart/form-data";
+      console.log('FormData as object:', Object.fromEntries(data.entries()));
     }
 
     const config = {

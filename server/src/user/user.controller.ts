@@ -3,6 +3,7 @@ import {
   Controller,
   Post,
   Put,
+  Get,
   Param,
   ParseIntPipe,
 } from '@nestjs/common';
@@ -26,5 +27,10 @@ export class UserController {
     @Body() dto: UpdateUserDto,
   ): Promise<User | null> {
     return this.userService.update(id, dto);
+  }
+
+  @Get()
+  read(): string {
+    return `I'm user`;
   }
 }

@@ -3,25 +3,27 @@ import { FieldValidationContext } from './useFieldValidationContext';
 
 type FieldValidator = {
   key: string;
-  fn: () => void;
+  fn: () => boolean;
 };
 
 export const FieldValidationProvider = ({ children }: { children: React.ReactNode }) => {
   const registeredValidators = useRef<FieldValidator[]>([]);
 
-  const registerValidator = (key: string, fn: () => void) => {
-    const exists = registeredValidators.current.some(v => v.key === key);
+  const addFieldValidator = (key: string, fn: () => boolean) => {
+    const exists = registeredValidators.current.some(validator => validator.key === key);
+
     if (!exists) {
       registeredValidators.current.push({ key, fn });
     }
   };
 
-  const triggerAllValidators = () => {
-    registeredValidators.current.forEach(v => v.fn());
+  const validateAllFields = () => {
+    const results = registeredValidators.current.map(validator => validator.fn());
+    return results.every(result => result);
   };
 
   return (
-    <FieldValidationContext.Provider value={{ registerValidator, triggerAllValidators }}>
+    <FieldValidationContext.Provider value={{ addFieldValidator, validateAllFields }}>
       {children}
     </FieldValidationContext.Provider>
   );

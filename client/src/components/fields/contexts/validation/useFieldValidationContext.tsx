@@ -1,8 +1,8 @@
 import { createContext, useContext } from "react";
 
 type FieldValidationContextType = {
-  registerValidator: (key: string, fn: () => void) => void;
-  triggerAllValidators: () => void;
+  registerValidator: (key: string, fn: () => boolean) => void;
+  triggerAllValidators: () => boolean;
 };
 
 export const FieldValidationContext = createContext<FieldValidationContextType | null>(null);

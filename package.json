@@ -1,8 +1,12 @@
 {
-    "scripts": {
-        "dev": "concurrently \"npm --prefix client run dev\" \"npm --prefix server run start:dev\""
-    },
-    "devDependencies": {
-        "concurrently": "^9.1.2"
-    }
+  "scripts": {
+    "dev": "concurrently \"npm --prefix client run dev\" \"npm --prefix server run start:dev\"",
+    "migration:generate": "npm --prefix server run migration:generate",
+    "migration:run": "npm --prefix server run migration:run",
+    "migration:run:prod": "npm --prefix server run migration:run:prod"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3"
+  }
 }
