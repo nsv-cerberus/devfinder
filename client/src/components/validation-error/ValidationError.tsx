@@ -1,4 +1,4 @@
-/* import './ValidationError.scss'; */
+import './ValidationError.scss';
 
 type Props = {
     text?: string;

@@ -1,15 +1,28 @@
-import React from "react";
+import React from 'react';
+import './Button.scss';
+import Waiting from './components/waiting/Waiting';
+
+export type ButtonStatus = 'default' | 'waiting';
 
 type Props = {
-    type?: 'submit';
-    title?: string;
-    onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-    isWaiting?: boolean;
-    children: React.ReactNode;
+  status?: ButtonStatus;
+  type?: 'submit';
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  children: React.ReactNode;
 }
 
-export default function Button({ type = 'submit', children, onClick, isWaiting = false }: Props) {
-    return (
-        <button type={type} className={`button ${!isWaiting ? 'dectivate' : ''}`} onClick={onClick}>{children}</button>
-    );
+export default function Button({ status = 'default', type = 'submit', onClick, children }: Props) {
+  let content;
+
+  switch (status) {
+    case 'waiting':
+      content = <Waiting />;
+      break;
+    default:
+      content = children;
+  }
+
+  return (
+    <button type={type} onClick={onClick}>{content}</button>
+  );
 }

@@ -1,12 +1,14 @@
 import store from "@/store/store";
 import { useFieldValidationContext } from "@/components/fields/contexts/validation/useFieldValidationContext";
 import { addDataByRequest } from "@/utils/request";
-import Button from "@/components/ui/button/Button";
+import { useRef } from "react";
+import SubmitButton, { SubmitButtonRefType } from "@/components/ui/button/variants/SubmitButton";
 
 export function SignUpButton() {
   const { validateAllFields } = useFieldValidationContext();
+  const btnRef = useRef<SubmitButtonRefType>(null);
 
-  const onClick = () => {
+  const onSubmit = () => {
     if (validateAllFields()) {
       const state = store.getState().auth.signUpForm;
       const url = ``;
@@ -18,9 +20,13 @@ export function SignUpButton() {
 
       addDataByRequest(url, data);
     }
+    else {
+      console.error("Validation failed");
+      btnRef.current?.resetStatus();
+    }
   }
 
   return (
-    <Button onClick={ onClick }>Sign Up</Button>
+    <SubmitButton ref={btnRef} onClick={onSubmit}>Sign Up</SubmitButton>
   )
 }
