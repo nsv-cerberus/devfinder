@@ -1,25 +1,25 @@
 # Core
 node_modules/
 
-# Client / React / Redux
-client/node_modules/
-client/dist/
-client/.env
-client/.vite/
+# Web / React / Redux
+web/node_modules/
+web/dist/
+web/.env
+web/.vite/
 
-# Server / Nest
-server/dist/
-server/node_modules/
-server/build/
-server/.env
-server/.env.local
-server/.env.development.local
-server/.env.production.local
+# API / Nest
+api/dist/
+api/node_modules/
+api/build/
+api/.env
+api/.env.local
+api/.env.development.local
+api/.env.production.local
 
 # Mobile app (for features)
-app/node_modules/
-app/dist/
-app/.env
+mobile/node_modules/
+mobile/dist/
+mobile/.env
 
 # Сommon
 Thumbs.db

@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "dev": "concurrently \"npm --prefix client run dev\" \"npm --prefix server run start:dev\"",
-    "migration:generate": "npm --prefix server run migration:generate",
-    "migration:run": "npm --prefix server run migration:run",
-    "migration:run:prod": "npm --prefix server run migration:run:prod"
+    "dev": "concurrently \"npm --prefix web run dev\" \"npm --prefix api run start:dev\"",
+    "migration:generate": "npm --prefix api run migration:generate",
+    "migration:run": "npm --prefix api run migration:run",
+    "migration:run:prod": "npm --prefix api run migration:run:prod"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",

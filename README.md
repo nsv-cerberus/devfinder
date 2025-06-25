@@ -2,7 +2,8 @@
 
 Fullstack messenger app with:
 
-- Client: React / Vite
-- Server: Nest / PostgreSQL
+- web: React / Vite
+- api: Nest / PostgreSQL
+- mobile: React Native (in progress)
 
 ## Structure
