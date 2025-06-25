@@ -11,7 +11,7 @@ export function SignUpButton() {
   const onSubmit = () => {
     if (validateAllFields()) {
       const state = store.getState().auth.signUpForm;
-      const url = ``;
+      const url = `/api/users/create`;
 
       const data = new FormData();
       data.append("username", state.username);

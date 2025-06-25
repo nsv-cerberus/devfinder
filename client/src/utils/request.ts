@@ -1,8 +1,8 @@
 import axios from "axios";
 
-type RequestType = "get" | "post" | "put" | "delete";
+type RequestMethodType = 'get' | 'post' | 'put' | 'delete';
 
-const request = async (type: RequestType, url: string, data?: FormData) => {
+const request = async (method: RequestMethodType, url: string, data?: FormData) => {
   try {
     const headers: Record<string, string> = {};
 
@@ -12,13 +12,14 @@ const request = async (type: RequestType, url: string, data?: FormData) => {
     }
 
     const config = {
-      type,
+      method,
       url,
       headers,
       data
     };
 
     const response = await axios(config);
+    console.log("Response:", response.data);
     return response.data;
   } catch (err) {
     showErrorInConsole(err);
@@ -27,19 +28,19 @@ const request = async (type: RequestType, url: string, data?: FormData) => {
 };
 
 export const getDataFromRequest = async (url: string) => {
-  return await request("get", url);
+  return await request('get', url);
 };
 
 export const addDataByRequest = async (url: string, data: FormData) => {
-  return await request("post", url, data);
+  return await request('post', url, data);
 };
 
 export const updateDataByRequest = async (url: string, data: FormData) => {
-  return await request("put", url, data);
+  return await request('put', url, data);
 };
 
 export const deleteDataByRequest = async (url: string) => {
-  return await request("delete", url);
+  return await request('delete', url);
 };
 
-const showErrorInConsole = (err: unknown) => console.error("Error:", err);
+const showErrorInConsole = (err: unknown) => console.error('Error:', err);
