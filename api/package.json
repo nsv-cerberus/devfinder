@@ -10,6 +10,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "ts-node-dev --respawn --transpile-only src/main.ts",
+    "start:dev:local": "cross-env NODE_ENV=development npm run typeorm -- --env-file .env.local",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -20,7 +21,9 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migration:generate": "cross-env NODE_ENV=development npm run typeorm -- migration:generate src/migrations/InitialMigration -d ormconfig.ts",
+    "migration:generate:local": "cross-env NODE_ENV=development DOTENV_CONFIG_PATH=.env.local npm run typeorm -- migration:generate src/migrations/InitialMigration -d ormconfig.ts",
     "migration:run": "cross-env NODE_ENV=development npm run typeorm -- migration:run -d ormconfig.ts",
+    "migration:run:local": "cross-env NODE_ENV=development DOTENV_CONFIG_PATH=.env.local npm run typeorm -- migration:run -d ormconfig.ts",
     "migration:run:prod": "cross-env NODE_ENV=production npm run typeorm -- migration:run -d ormconfig.ts"
   },
   "dependencies": {
@@ -28,6 +31,7 @@
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/cqrs": "^11.0.3",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/typeorm": "^11.0.0",
     "argon2": "^0.43.0",

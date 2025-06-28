@@ -15,6 +15,7 @@ export const dataSourceOptions: DataSourceOptions = {
   entities: [isProd ? 'dist/**/*.entity.js' : 'src/**/*.entity.ts'],
   migrations: [isProd ? 'dist/migrations/*.js' : 'src/migrations/*.ts'],
   synchronize: false,
+  logging: true, // Добавляем логирование для отладки
 };
 
 const dataSource = new DataSource(dataSourceOptions);

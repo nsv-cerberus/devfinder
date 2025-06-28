@@ -30,4 +30,27 @@ export class UserService {
     await this.userRepository.update(id, dto);
     return this.userRepository.findOneBy({ id });
   }
+
+  async findAll(): Promise<User[]> {
+    return this.userRepository.find();
+  }
+
+  async findById(id: number): Promise<User | null> {
+    return this.userRepository.findOneBy({ id });
+  }
+
+  async findByUsername(username: string): Promise<User | null> {
+    return this.userRepository.findOneBy({ username });
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    return this.userRepository.findOneBy({ email });
+  }
+
+  async validatePassword(
+    hashedPassword: string,
+    plainPassword: string,
+  ): Promise<boolean> {
+    return await argon2.verify(hashedPassword, plainPassword);
+  }
 }

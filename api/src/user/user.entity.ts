@@ -1,4 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+export enum UserType {
+  DEVELOPER = 'developer',
+  STUDIO = 'studio',
+}
 
 @Entity()
 export class User {
@@ -13,4 +24,20 @@ export class User {
 
   @Column()
   password: string;
+
+  @Column({
+    type: 'enum',
+    enum: UserType,
+    default: UserType.DEVELOPER,
+  })
+  userType: UserType;
+
+  @Column({ default: false })
+  isConfirmed: boolean;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

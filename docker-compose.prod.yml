@@ -1,0 +1,32 @@
+services:
+  # Frontend (React + Vite)
+  web:
+    build:
+      context: ./web
+    ports:
+      - "80:5173"
+    environment:
+      - HOST=0.0.0.0
+    command: npm run build && npm run preview
+    depends_on:
+      - api
+
+  # Backend (NestJS API)
+  api:
+    build:
+      context: ./api
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      # Подключение к внешней БД
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+    command: npm run start:prod
+
+# В продакшне БД и Redis - внешние сервисы

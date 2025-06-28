@@ -7,10 +7,10 @@ import {
   Param,
   ParseIntPipe,
 } from '@nestjs/common';
-import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './user.entity';
+import { UserService } from './user.service';
 
 @Controller('users')
 export class UserController {
@@ -30,7 +30,12 @@ export class UserController {
   }
 
   @Get()
-  read(): string {
-    return `I'm user`;
+  findAll(): Promise<User[]> {
+    return this.userService.findAll();
+  }
+
+  @Get(':id')
+  findById(@Param('id', ParseIntPipe) id: number): Promise<User | null> {
+    return this.userService.findById(id);
   }
 }

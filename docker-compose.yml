@@ -59,8 +59,22 @@ services:
       - redis_data:/data
     command: redis-server --appendonly yes
 
+  # pgAdmin - веб-интерфейс для PostgreSQL
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "8080:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@devfinder.com
+      - PGADMIN_DEFAULT_PASSWORD=admin123
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+
 volumes:
   postgres_data:
   redis_data:
+  pgadmin_data:
   web_node_modules:
   api_node_modules:
