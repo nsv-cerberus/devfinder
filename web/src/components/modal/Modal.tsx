@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './Modal.scss';
 
 export default function Modal({ children }: { children: React.ReactNode }) {
-  const [isEnabled, setIsEnable] = useState(false);
+  const [isEnabled, setIsEnable] = useState(true);
 
   return (
     (isEnabled) ?

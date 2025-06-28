@@ -1,14 +1,19 @@
-import { Field } from "@/components/fields/FieldInput";
-import { FieldProps, SignInFormKeyType } from "@/components/fields/types/field-types";
+import { regex } from "@/utils/regex";
+import SignInFieldWrapper from "./wrapper/SignInFieldWrapper";
 
-export function SignInPasswordField({ valueDispatcher: dispatcher }: FieldProps<SignInFormKeyType>) {
-    return (
-        <Field<SignInFormKeyType>
-            type="password"
-            placeholder="Password"
-            stateKey="password"
-            valueDispatcher={dispatcher}
-            validationError=""
-        />
-    );
+export function SignInPasswordField() {
+  return (
+    <SignInFieldWrapper
+      stateKey="password"
+      placeholder="Password"
+      type="password"
+      isRequired={true}
+      validation={{
+        regexRule: {
+          regex: regex.password,
+          errorMessage: "The password must not be less than 8 characters long."
+        }
+      }}
+    />
+  );
 }

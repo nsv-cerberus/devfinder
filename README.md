@@ -1,9 +1,7 @@
-# Messenger
+# DevFinder
 
-Fullstack messenger app with:
-
-- web: React / Vite
-- api: Nest / PostgreSQL
-- mobile: React Native (in progress)
+- web: React/ Redux / Vite (in progress)
+- api: Nest / PostgreSQL (in progress)
+- mobile: React Native
 
 ## Structure

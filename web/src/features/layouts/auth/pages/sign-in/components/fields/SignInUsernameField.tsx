@@ -1,13 +1,18 @@
-import { Field } from "@/components/fields/FieldInput";
-import { FieldProps, SignInFormKeyType } from "@/components/fields/types/field-types";
+import { regex } from "@/utils/regex";
+import SignInFieldWrapper from "./wrapper/SignInFieldWrapper";
 
-export function SignInUsernameField({ valueDispatcher: dispatcher }: FieldProps<SignInFormKeyType>) {
-    return (
-        <Field<SignInFormKeyType>
-            type="username"
-            placeholder="Username"
-            stateKey="username"
-            valueDispatcher={dispatcher}
-        />
-    );
+export function SignInUsernameField() {
+  return (
+    <SignInFieldWrapper
+      stateKey="username"
+      placeholder="Username"
+      isRequired={true}
+      validation={{
+        regexRule: {
+          regex: regex.username,
+          errorMessage: "The Username 3 - 16 symbols."
+        }
+      }}
+    />
+  );
 }

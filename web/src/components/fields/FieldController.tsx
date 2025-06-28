@@ -1,32 +1,34 @@
 import { useState, useEffect } from "react";
 import { useFieldValidationContext } from "./contexts/validation/useFieldValidationContext";
 import { ValidateType, ValidationType, validate } from "@/utils/validation";
-import { SignInFormState, SignUpFormState } from "@/store/slices/authSlice";
+import { FieldDispatcher, ValidationDispatcher, StateValueGetter } from "./types";
 
 import { FieldInput } from "./FieldInput";
 import store from "@/store/store";
 
-type FieldControllerProps<TStateKey extends SignInFormState | SignUpFormState> = {
+type FieldControllerProps = {
   type?: React.HTMLInputTypeAttribute;
   placeholder?: string;
   isRequired?: boolean;
   valueControl: {
-    stateKey: TStateKey,
-    dispatcher: (payload: { stateKey: SignInFormState | SignUpFormState; value: string }) => void
+    stateKey: string,
+    dispatcher: FieldDispatcher
   },
   validationControl?: {
     validation: ValidationType,
-    dispatcher: (payload: { stateKey: SignInFormState | SignUpFormState; value: boolean }) => void
-  }
+    dispatcher: ValidationDispatcher
+  },
+  stateValueGetter: StateValueGetter;
 };
 
-export function FieldController<TStateKey extends SignInFormState | SignUpFormState>({
+export function FieldController({
   type,
   placeholder,
   isRequired,
   valueControl,
-  validationControl
-}: FieldControllerProps<TStateKey>) {
+  validationControl,
+  stateValueGetter
+}: FieldControllerProps) {
   const [error, setError] = useState<{
     isActive: boolean;
     message: string;
@@ -45,7 +47,7 @@ export function FieldController<TStateKey extends SignInFormState | SignUpFormSt
 
   const validateValue = () => {
     const state = store.getState();
-    const value = state.auth.signUpForm[valueControl.stateKey];
+    const value = stateValueGetter(state, valueControl.stateKey); //state.auth.signUpForm[valueControl.stateKey];
 
     if (isRequired && !value) {
       setError({

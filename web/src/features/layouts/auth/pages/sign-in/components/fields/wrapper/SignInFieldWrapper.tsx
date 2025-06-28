@@ -1,20 +1,19 @@
 import { ValidationType } from "@/utils/validation";
-import { SignUpFormState } from "@/store/slices/authSlice";
-import { useSignUpFieldDispatcher, useSignUpValidateDispatcher } from "@/hooks/useAuthFormFieldDispatchers";
+import { SignInFormState } from "@/store/slices/authSlice";
+import { useSignInFieldDispatcher, useSignInValidateDispatcher } from "@/hooks/useAuthFormFieldDispatchers";
+import { FieldController } from "@/components/fields/FieldController";
 import { RootState } from "@/store/store";
 import { FieldDispatcher, ValidationDispatcher } from "@/components/fields/types";
 
-import { FieldController } from "@/components/fields/FieldController";
-
 interface Props {
-  stateKey: SignUpFormState;
+  stateKey: SignInFormState;
   placeholder?: string;
   isRequired?: boolean;
   type?: React.HTMLInputTypeAttribute;
   validation: ValidationType
 }
 
-export default function SignUpFieldWrapper({
+export default function SignInFieldWrapper({
   stateKey,
   placeholder,
   isRequired,
@@ -28,13 +27,13 @@ export default function SignUpFieldWrapper({
       isRequired={isRequired}
       valueControl={{
         stateKey,
-        dispatcher: useSignUpFieldDispatcher() as FieldDispatcher,
+        dispatcher: useSignInFieldDispatcher() as FieldDispatcher,
       }}
       validationControl={{
         validation: validation,
-        dispatcher: useSignUpValidateDispatcher() as ValidationDispatcher
+        dispatcher: useSignInValidateDispatcher() as ValidationDispatcher
       }}
-      stateValueGetter={(state, key) => (state as RootState).auth.signUpForm[key as SignUpFormState]}
+      stateValueGetter={(state, key) => (state as RootState).auth.signInForm[key as SignInFormState]}
     />
   );
 }

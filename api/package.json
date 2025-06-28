@@ -1,7 +1,7 @@
 {
-  "name": "server",
+  "name": "devfinder-api",
   "version": "0.0.1",
-  "description": "",
+  "description": "DevFinder API - Backend for developer finder application",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
@@ -24,15 +24,18 @@
     "migration:run:prod": "cross-env NODE_ENV=production npm run typeorm -- migration:run -d ormconfig.ts"
   },
   "dependencies": {
+    "@nestjs/cache-manager": "^3.0.1",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/typeorm": "^11.0.0",
     "argon2": "^0.43.0",
+    "cache-manager-redis-store": "^3.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "pg": "^8.16.0",
+    "redis": "^4.7.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.24"

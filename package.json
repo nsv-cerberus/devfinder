@@ -1,6 +1,13 @@
 {
+  "name": "devfinder",
+  "version": "1.0.0",
+  "description": "DevFinder - A fullstack application for finding developers",
+  "private": true,
   "scripts": {
     "dev": "concurrently \"npm --prefix web run dev\" \"npm --prefix api run start:dev\"",
+    "docker:dev": "docker compose up",
+    "docker:build": "docker compose up --build",
+    "docker:down": "docker compose down",
     "migration:generate": "npm --prefix api run migration:generate",
     "migration:run": "npm --prefix api run migration:run",
     "migration:run:prod": "npm --prefix api run migration:run:prod"
