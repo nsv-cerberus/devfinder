@@ -6,8 +6,12 @@ import {
   HttpStatus,
   UnauthorizedException,
   BadRequestException,
+  Res,
+  Req,
 } from '@nestjs/common';
+import { Response, Request } from 'express';
 import { UserService } from '../user/user.service';
+import { AuthService } from './auth.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 
 interface LoginDto {
@@ -21,7 +25,7 @@ interface LoginResponse {
     id: string;
     username: string;
     email: string;
-    token: string;
+    // token больше не нужен - он в cookie
   };
   message?: string;
 }
@@ -32,18 +36,24 @@ interface RegisterResponse {
     id: number;
     username: string;
     email: string;
-    token: string;
+    // token больше не нужен - он в cookie
   };
   message?: string;
 }
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  async login(@Body() loginDto: LoginDto): Promise<LoginResponse> {
+  async login(
+    @Body() loginDto: LoginDto,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<LoginResponse> {
     try {
       console.log('Received login request:', loginDto);
 
@@ -64,8 +74,20 @@ export class AuthController {
         throw new UnauthorizedException('Неверный логин или пароль');
       }
 
-      // Генерируем mock JWT токен
-      const token = 'mock-jwt-token-' + Date.now();
+      // Генерируем пару токенов
+      const { accessToken, refreshToken } =
+        this.authService.generateTokenPair(user);
+
+      // Устанавливаем httpOnly cookie с access токеном
+      res.cookie('accessToken', accessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // HTTPS только в production
+        sameSite: 'strict',
+        maxAge: 15 * 60 * 1000, // 15 минут
+      });
+
+      // TODO: Сохраняем refresh токен в Redis
+      // await this.redisService.setRefreshToken(user.id.toString(), refreshToken);
 
       const response = {
         success: true,
@@ -73,7 +95,7 @@ export class AuthController {
           id: user.id.toString(),
           username: user.username,
           email: user.email,
-          token: token,
+          // Токен НЕ отправляем в ответе - он в cookie!
         },
       };
 
@@ -99,6 +121,7 @@ export class AuthController {
   @HttpCode(HttpStatus.CREATED)
   async register(
     @Body() registerDto: CreateUserDto,
+    @Res({ passthrough: true }) res: Response,
   ): Promise<RegisterResponse> {
     try {
       console.log('Received register request:', registerDto);
@@ -126,8 +149,20 @@ export class AuthController {
       // Создаем нового пользователя
       const user = await this.userService.create(registerDto);
 
-      // Генерируем mock JWT токен
-      const token = 'mock-jwt-token-' + Date.now();
+      // Генерируем пару токенов
+      const { accessToken, refreshToken } =
+        this.authService.generateTokenPair(user);
+
+      // Устанавливаем httpOnly cookie с access токеном
+      res.cookie('accessToken', accessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 15 * 60 * 1000, // 15 минут
+      });
+
+      // TODO: Сохраняем refresh токен в Redis
+      // await this.redisService.setRefreshToken(user.id.toString(), refreshToken);
 
       const response = {
         success: true,
@@ -135,7 +170,7 @@ export class AuthController {
           id: user.id,
           username: user.username,
           email: user.email,
-          token: token,
+          // Токен НЕ отправляем в ответе
         },
       };
 

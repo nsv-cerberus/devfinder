@@ -25,7 +25,7 @@ interface LoginResponse {
     id: string;
     username: string;
     email: string;
-    token: string;
+    // token больше не нужен - он в httpOnly cookie
   };
   message?: string;
 }
@@ -36,7 +36,7 @@ interface RegisterResponse {
     id: number;
     username: string;
     email: string;
-    token: string;
+    // token больше не нужен - он в httpOnly cookie
   };
   message?: string;
 }
@@ -47,12 +47,13 @@ export const authService = {
       store.dispatch(setSignInLoading(true));
       store.dispatch(setSignInError(null));
 
-      // Отправляем JSON вместо FormData
+      // Отправляем JSON с credentials для cookies
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include', // Важно! Для работы с cookies
         body: JSON.stringify(loginData),
       });
 
@@ -60,16 +61,16 @@ export const authService = {
       console.log("Response:", data);
 
       if (data && data.success) {
-        // Сохраняем данные пользователя в store
+        // Сохраняем данные пользователя в store (БЕЗ токена!)
         store.dispatch(setUser({
           id: data.data.id,
           username: data.data.username,
           email: data.data.email,
-          token: data.data.token
+          token: '', // Токен теперь в httpOnly cookie
         }));
 
-        // Сохраняем токен в localStorage
-        localStorage.setItem('authToken', data.data.token);
+        // НЕ сохраняем токен в localStorage - он в httpOnly cookie!
+        // localStorage.setItem('authToken', data.data.token); //
 
         return data;
       } else {
@@ -96,6 +97,7 @@ export const authService = {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include', // Важно! Для работы с cookies
         body: JSON.stringify(registerData),
       });
 
@@ -103,16 +105,16 @@ export const authService = {
       console.log("Register response:", data);
 
       if (data && data.success) {
-        // Сохраняем данные пользователя в store
+        // Сохраняем данные пользователя в store (БЕЗ токена!)
         store.dispatch(setUser({
           id: data.data.id.toString(),
           username: data.data.username,
           email: data.data.email,
-          token: data.data.token
+          token: '', // Токен теперь в httpOnly cookie
         }));
 
-        // Сохраняем токен в localStorage
-        localStorage.setItem('authToken', data.data.token);
+        // НЕ сохраняем токен в localStorage - он в httpOnly cookie!
+        // localStorage.setItem('authToken', data.data.token); //
 
         return data;
       } else {
@@ -131,6 +133,13 @@ export const authService = {
 
   logout() {
     store.dispatch(clearUser());
-    localStorage.removeItem('authToken');
+    // НЕ удаляем токен из localStorage - он в httpOnly cookie
+    // localStorage.removeItem('authToken'); //
+
+    // TODO: Вызов API для logout и очистки cookie на сервере
+    fetch('/api/auth/logout', {
+      method: 'POST',
+      credentials: 'include',
+    });
   }
 };
